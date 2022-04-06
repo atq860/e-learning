@@ -18,6 +18,7 @@ const authUser = asyncHandler(async (req, res) => {
         name: user.name,
         email: user.email,
         type: user.type,
+        isApproved: user.isApproved,
         token: generateToken(user._id),
       });
     } else {
@@ -60,9 +61,9 @@ const registerUser = asyncHandler(async (req, res) => {
     email,
     password,
     type,
-    phone: "0",
-    country: "Sample",
-    city: "Sample",
+    phone,
+    country,
+    city,
     image: "/images/sample.jpg",
     isApproved,
   });
@@ -73,11 +74,39 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       type: user.type,
+      isApproved: user.isApproved,
       token: generateToken(user._id),
     });
   } else {
     res.status(400);
     throw new Error("Invalid User Data");
+  }
+});
+
+// @desc    Approve Experts
+// @route   GET /api/users/unapprove
+// access   Private/Admin
+const unapprovedExperts = asyncHandler(async (req, res) => {
+  const user = await User.find({ type: userType.EXPERT });
+  const notApprovedExperts = user.filter((user) => !user.isApproved);
+
+  res.json(notApprovedExperts);
+});
+
+// @desc    Approve Experts
+// @route   PUT /api/users/approve/:id
+// access   Private/Admin
+const updateExpertToApproved = asyncHandler(async (req, res) => {
+  const expert = await User.findById(req.params.id);
+
+  if (expert) {
+    expert.isApproved = true;
+
+    const approvedExpert = await expert.save();
+    res.json(approvedExpert);
+  } else {
+    res.status(404);
+    throw new Error("Expert Not Found");
   }
 });
 
@@ -295,6 +324,8 @@ const createConsultantReview = asyncHandler(async (req, res) => {
 export {
   authUser,
   registerUser,
+  unapprovedExperts,
+  updateExpertToApproved
   // getUserProfile,
   // updateUserProfile,
   // getUsers,

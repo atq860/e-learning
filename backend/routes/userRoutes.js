@@ -1,8 +1,10 @@
 import express from "express";
 const router = express.Router();
 import {
+  unapprovedExperts,
   authUser,
   registerUser,
+  updateExpertToApproved
   // getUserProfile,
   // updateUserProfile,
   // getUsers,
@@ -13,7 +15,7 @@ import {
   // registerConsultant,
   // createConsultantReview,
 } from "../controllers/userController.js";
-// import { admin, protect, user } from "../middleware/authMiddleware.js";
+import { admin, protect, user } from "../middleware/authMiddleware.js";
 
 // router.route("/consultants").get(getConsultants);
 // router.route("/:id/reviews").post(protect, user, createConsultantReview);
@@ -21,6 +23,8 @@ import {
 // router.route("/registerConsultant").post(registerConsultant);
 router.route("/").post(registerUser)/* .get(protect, admin, getUsers); */
 router.post("/login", authUser);
+router.get("/unapprove", protect, admin, unapprovedExperts);
+router.put("/approve/:id", protect, admin, updateExpertToApproved);
 // router
 //   .route("/profile")
 //   .get(protect, getUserProfile)

@@ -23,17 +23,19 @@ const userSchema = mongoose.Schema(
     phone: {
       type: String,
       required: true,
-      // default: 0,
+      default: 0,
     },
 
     country: {
       type: String,
       required: true,
+      default: "Sample"
     },
 
     city: {
       type: String,
       required: true,
+      default: "Sample"
     },
 
     image: {

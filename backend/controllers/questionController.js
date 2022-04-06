@@ -18,6 +18,31 @@ const createQuestion = asyncHandler(async (req, res) => {
   res.status(201).json(createdQuestion);
 });
 
+// @desc    GET all questions
+// @route   GET /api/questions
+// access   Public
+const getQuestions = asyncHandler(async (req, res) => {
+  const questions = await Question.find({}).populate("user", "name email")
+  res.json(questions);
+});
+
+// @desc    Fetch Single Question
+// @route   GET /api/questions/:id
+// access   Public
+const getQuestionById = asyncHandler(async (req, res) => {
+  const question = await Question.findById(req.params.id).populate(
+    "user",
+    "name email type createdAt"
+  );
+
+  if (question) {
+    res.json(question);
+  } else {
+    res.status(404);
+    throw new Error("Question Not Found");
+  }
+});
+
 // @desc    Create new Answer of a Question
 // @route   POST /api/questions/:id/answers
 // @access  Private/Expert
@@ -127,4 +152,4 @@ const deleteAnswer = asyncHandler(async (req, res) => {
   }
 });
 
-export { createQuestion, createAnswer, updateAnswer, deleteAnswer };
+export { createQuestion, createAnswer, updateAnswer, deleteAnswer, getQuestions, getQuestionById };
