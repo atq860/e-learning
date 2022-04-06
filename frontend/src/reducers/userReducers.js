@@ -10,6 +10,10 @@ import {
   CONSULTANT_REGISTER_FAIL,
   CONSULTANT_REGISTER_REQUEST,
   CONSULTANT_REGISTER_SUCCESS,
+  EXPERT_APPROVE_FAIL,
+  EXPERT_APPROVE_REQUEST,
+  EXPERT_APPROVE_RESET,
+  EXPERT_APPROVE_SUCCESS,
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
@@ -141,6 +145,24 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
     case USER_UPDATE_FAIL:
       return { loading: false, error: action.payload };
     case USER_UPDATE_RESET:
+      return {
+        user: {},
+      };
+    default:
+      return state;
+  }
+};
+
+// Update User from Only ADMIN
+export const expertApproveReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case EXPERT_APPROVE_REQUEST:
+      return { loading: true };
+    case EXPERT_APPROVE_SUCCESS:
+      return { loading: false, success: true };
+    case EXPERT_APPROVE_FAIL:
+      return { loading: false, error: action.payload };
+    case EXPERT_APPROVE_RESET:
       return {
         user: {},
       };

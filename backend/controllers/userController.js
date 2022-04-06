@@ -64,7 +64,7 @@ const registerUser = asyncHandler(async (req, res) => {
     phone,
     country,
     city,
-    image: "/images/sample.jpg",
+    image,
     isApproved,
   });
 
@@ -83,37 +83,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Approve Experts
-// @route   GET /api/users/unapprove
-// access   Private/Admin
-const unapprovedExperts = asyncHandler(async (req, res) => {
-  const user = await User.find({ type: userType.EXPERT });
-  const notApprovedExperts = user.filter((user) => !user.isApproved);
-
-  res.json(notApprovedExperts);
-});
-
-// @desc    Approve Experts
-// @route   PUT /api/users/approve/:id
-// access   Private/Admin
-const updateExpertToApproved = asyncHandler(async (req, res) => {
-  const expert = await User.findById(req.params.id);
-
-  if (expert) {
-    expert.isApproved = true;
-
-    const approvedExpert = await expert.save();
-    res.json(approvedExpert);
-  } else {
-    res.status(404);
-    throw new Error("Expert Not Found");
-  }
-});
-
 // @desc    GET User Profile
 // @route   GET /api/users/profile
 // access   Private
-// Firsr thing is get data from BODY
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id); // Current Logged in User
 
@@ -128,7 +100,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // @desc    UPDATE User Profile
 // @route   PUT /api/users/profile
 // access   Private
-// First thing is, get data from BODY
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id); // Current Logged in User
 
@@ -157,10 +128,38 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// _________________ ADMIN ___________________
+
+// @desc    Approve Experts
+// @route   GET /api/users/unapprove
+// access   Private/Admin
+const unapprovedExperts = asyncHandler(async (req, res) => {
+  const user = await User.find({ type: userType.EXPERT });
+  const notApprovedExperts = user.filter((user) => !user.isApproved);
+
+  res.json(notApprovedExperts);
+});
+
+// @desc    Approve Experts
+// @route   PUT /api/users/approve/:id
+// access   Private/Admin
+const updateExpertToApproved = asyncHandler(async (req, res) => {
+  const expert = await User.findById(req.params.id);
+
+  if (expert) {
+    expert.isApproved = true;
+
+    const approvedExpert = await expert.save();
+    res.json(approvedExpert);
+  } else {
+    res.status(404);
+    throw new Error("Expert Not Found");
+  }
+});
+
 // @desc    GET all users
 // @route   GET /api/users
 // access   Private/Admin
-// Firsr thing is get data from BODY
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({}); // Current Logged in User
   res.json(users);
@@ -198,24 +197,20 @@ const getUserById = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id
 // access   Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
-  // One Big Change, we dont want logged in User, but we want it from ID
-  // So previously const user = await User.findById(req.user._id); // Current Logged in User
-  // and Now Below
-
   const user = await User.findById(req.params.id); // get User By Id From Admin
 
   if (user) {
     user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.type = req.body.type || user.type;
+    // user.email = req.body.email || user.email;
+    // user.type = req.body.type || user.type;
 
     const updatedUser = await user.save();
 
     res.json({
       _id: updatedUser._id,
       name: updatedUser.name,
-      email: updatedUser.email,
-      type: updatedUser.type,
+      // email: updatedUser.email,
+      // type: updatedUser.type,
     });
   } else {
     res.status(404);
@@ -325,17 +320,14 @@ export {
   authUser,
   registerUser,
   unapprovedExperts,
-  updateExpertToApproved
-  // getUserProfile,
-  // updateUserProfile,
-  // getUsers,
-  // deleteUser,
-  // getUserById,
-  // updateUser,
+  updateExpertToApproved,
+  getUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+  updateUserProfile,
+  getUserProfile,
   // getConsultants,
   // registerConsultant,
   // createConsultantReview,
 };
-
-// const { email, password } = req.body;
-//   res.send({ email, password });

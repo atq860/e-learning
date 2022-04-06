@@ -7,10 +7,22 @@ import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 import QuestionPostScreen from "./screens/QuestionPostScreen";
 import MathsScreen from "./screens/categories/MathsScreen";
-import MathsQuestionScreen from "./screens/categories/MathsQuestionScreen";
-import MathsAnswerScreen from "./screens/categories/MathsAnswerScreen";
+// import MathsQuestionScreen from "./screens/categories/MathsQuestionScreen";
+// import MathsAnswerScreen from "./screens/categories/MathsAnswerScreen";
 import QuestionScreen from "./screens/QuestionScreen";
 import AnswerEditScreen from "./screens/AnswerEditScreen";
+import PhysicsScreen from "./screens/categories/PhysicsScreen";
+import SciencesScreen from "./screens/categories/SciencesScreen";
+import ChemistryScreen from "./screens/categories/ChemistryScreen";
+import EnglishScreen from "./screens/categories/EnglishScreen";
+import ComputerScreen from "./screens/categories/ComputerScreen";
+import BusinessScreen from "./screens/categories/BusinessScreen";
+import UserListScreen from "./screens/UserListScreen";
+import UserEditScreen from "./screens/UserEditScreen";
+import PendingExpertsScreen from "./screens/PendingExpertsScreens";
+import ExpertApproveScreen from "./screens/ExpertApproveScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import QuestionEditScreen from "./screens/QuestionEditScreen";
 
 function App() {
   return (
@@ -25,12 +37,25 @@ function App() {
 
             <Route path="/post-a-question" element={<QuestionPostScreen />} />
             <Route path="/questions/maths" element={<MathsScreen />} />
+            <Route path="/questions/physics" element={<PhysicsScreen />} />
+            <Route path="/questions/sciences" element={<SciencesScreen />} />
+            <Route path="/questions/chemistry" element={<ChemistryScreen />} />
+            <Route path="/questions/english" element={<EnglishScreen />} />
+            <Route path="/questions/computer" element={<ComputerScreen />} />
+            <Route path="/questions/business" element={<BusinessScreen />} />
 
             {/* <Route path="/questions/maths/:id" element={<MathsQuestionScreen />} />
             <Route path="/questions/maths/:id/answers/:answerId" element={<MathsAnswerScreen />} /> */}
 
             <Route path="/question/:id" element={<QuestionScreen />} />
+            <Route path="/question/:id/edit" element={<QuestionEditScreen />} />
             <Route path="/question/:id/answer/:answerId" element={<AnswerEditScreen />} />
+
+          <Route path="/admin/userlist" element={<UserListScreen />} />
+          <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+          <Route path="/admin/pendingExperts" element={<PendingExpertsScreen />} />
+          <Route path="/admin/pendingExperts/:id/approve" element={<ExpertApproveScreen />} />
+          <Route path="/profile" element={<ProfileScreen/>} />
           </Routes>
         </Container>
       </main>

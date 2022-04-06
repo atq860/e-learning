@@ -23,7 +23,7 @@ import Question from "../../components/Question";
 // import Rating from "../components/Rating";
 // import { userType } from "../constants/userType";
 
-const MathsScreen = () => {
+const PhysicsScreen = () => {
   const dispatch = useDispatch();
 
   const questionList = useSelector((state) => state.questionList);
@@ -40,7 +40,7 @@ const MathsScreen = () => {
 
   if (questions) {
     questions.forEach((question) => {
-      if (question.category === "maths") {
+      if (question.category === "physics") {
         filteredQuestions.push(question);
       }
     });
@@ -48,7 +48,7 @@ const MathsScreen = () => {
 
   return (
     <>
-      <h1>Maths Problems</h1>
+      <h1>Physics Problems</h1>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -69,4 +69,4 @@ const MathsScreen = () => {
   );
 };
 
-export default MathsScreen;
+export default PhysicsScreen;

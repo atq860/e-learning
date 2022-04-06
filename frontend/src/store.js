@@ -1,23 +1,44 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
-import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import {
+  expertApproveReducer,
+  userDeleteReducer,
+  userDetailsReducer,
+  userListReducer,
+  userLoginReducer,
+  userRegisterReducer,
+  userUpdateProfileReducer,
+  userUpdateReducer,
+} from "./reducers/userReducers";
 import {
   questionCreateReducer,
   questionListReducer,
   questionDetailsReducer,
   questionAnswerCreateReducer,
-  answerUpdateReducer
+  answerUpdateReducer,
+  questionUpdateReducer,
+  questionDeleteReducer,
+  answerDeleteReducer,
 } from "./reducers/questionReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   questionCreate: questionCreateReducer,
+  questionUpdate: questionUpdateReducer,
+  questionDelete: questionDeleteReducer,
   questionList: questionListReducer,
   questionDetails: questionDetailsReducer,
   questionAnswerCreate: questionAnswerCreateReducer,
-  answerUpdate: answerUpdateReducer
+  answerUpdate: answerUpdateReducer,
+  answerDelete: answerDeleteReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userDetails: userDetailsReducer,
+  userUpdate: userUpdateReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  expertApprove: expertApproveReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

@@ -47,7 +47,7 @@ const Header = () => {
                 <LinkContainer to="/questions/physics">
                   <NavDropdown.Item>Physics</NavDropdown.Item>
                 </LinkContainer>
-                <LinkContainer to="/questions/science">
+                <LinkContainer to="/questions/sciences">
                   <NavDropdown.Item>General Sciences</NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to="/questions/chemistry">
@@ -137,11 +137,11 @@ const Header = () => {
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/admin/productlist">
-                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  <LinkContainer to="/admin/pendingExperts">
+                    <NavDropdown.Item>Pending Approvals</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/admin/orderlist">
-                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  <LinkContainer to="/admin/questionlist">
+                    <NavDropdown.Item>Questions</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

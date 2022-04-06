@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createQuestionAnswer,
   listQuestionDetails,
+  deleteQuestion,
+  deleteAnswer,
 } from "../actions/questionActions";
 import { useParams } from "react-router-dom";
 import Question from "../components/Question";
@@ -22,15 +24,20 @@ import {
   Image,
 } from "react-bootstrap";
 import { QUESTION_CREATE_ANSWER_RESET } from "../constants/questionConstants";
+import { useNavigate } from "react-router-dom";
 
 function QuestionScreen() {
   const [newAnswer, setNewAnswer] = useState("");
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const params = useParams();
 
   const questionDetails = useSelector((state) => state.questionDetails);
   const { loading, error, question } = questionDetails;
+
+  const questionDelete = useSelector((state) => state.questionDelete);
+  const { success: successQuestionDelete } = questionDelete;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -44,7 +51,19 @@ function QuestionScreen() {
     loading: loadingQuestionAnswer,
   } = questionAnswerCreate;
 
+  const answerDelete = useSelector((state) => state.answerDelete);
+  const { success: successAnswerDelete } = answerDelete;
+
   useEffect(() => {
+    if (!userInfo) {
+      navigate("/login");
+    }
+    if (successQuestionDelete) {
+      navigate("/");
+    }
+    if (successAnswerDelete) {
+      dispatch(listQuestionDetails(params.id));
+    }
     if (successQuestionAnswer) {
       alert("Solution Posted!!");
       setNewAnswer("");
@@ -52,17 +71,37 @@ function QuestionScreen() {
     }
 
     dispatch(listQuestionDetails(params.id));
-  }, [dispatch, successQuestionAnswer]);
+  }, [
+    dispatch,
+    successQuestionAnswer,
+    successAnswerDelete,
+    userInfo,
+    successQuestionDelete,
+    navigate,
+    // params.id,
+  ]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(createQuestionAnswer(params.id, { answer: newAnswer }));
   };
 
+  const deleteQuestionHandler = (id) => {
+    if (window.confirm("Are You Sure")) {
+      dispatch(deleteQuestion(id));
+    }
+  };
+
+  const deleteAnswerHandler = (questionId, answerId) => {
+    if (window.confirm("Are You Sure")) {
+      dispatch(deleteAnswer(questionId, answerId));
+    }
+  };
+
   return (
     <>
       <Link className="btn btn-dark my-3" to="/">
-        Go Backkkkkkkkkkk
+        Go Back
       </Link>
       {loading ? (
         <Loader />
@@ -82,9 +121,9 @@ function QuestionScreen() {
               <Row>
                 <Col md={12}>
                   {/* <Link to={`${question._id}`} style={{ color: "black" }}> */}
-                    <h3 style={{ fontWeight: 100, fontSize: "1.2rem" }}>
-                      {question.question}
-                    </h3>
+                  <h3 style={{ fontWeight: 100, fontSize: "1.2rem" }}>
+                    {question.question}
+                  </h3>
                   {/* </Link> */}
 
                   <div>
@@ -122,6 +161,23 @@ function QuestionScreen() {
                     )}
                     {/* <Image src={question.image} /> */}
                   </div>
+
+                  {question?.user?._id === userInfo?._id && (
+                    <>
+                      <Link
+                        to={`/question/${question._id}/edit`}
+                        className="btn btn-secondary my-3 mr-3"
+                      >
+                        Edit
+                      </Link>
+                      <Button
+                        variant="danger"
+                        onClick={() => deleteQuestionHandler(question._id)}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
                 </Col>
               </Row>
             </ListGroupItem>
@@ -162,10 +218,22 @@ function QuestionScreen() {
                           {answer?.createdAt?.substring(0, 10)}
                         </div>
 
-                        {answer?.user === userInfo._id && (
+                        {answer?.user === userInfo?._id && (
                           <>
-                            <Link to={`answer/${answer._id}`} className="btn btn-secondary my-3 mr-3">Edit</Link>
-                            <Button variant="danger">Delete</Button>
+                            <Link
+                              to={`answer/${answer._id}`}
+                              className="btn btn-secondary my-3 mr-3"
+                            >
+                              Edit
+                            </Link>
+                            <Button
+                              variant="danger"
+                              onClick={() =>
+                                deleteAnswerHandler(question._id, answer._id)
+                              }
+                            >
+                              Delete
+                            </Button>
                           </>
                         )}
                       </Col>

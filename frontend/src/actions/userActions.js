@@ -10,6 +10,9 @@ import {
   CONSULTANT_REGISTER_FAIL,
   CONSULTANT_REGISTER_REQUEST,
   CONSULTANT_REGISTER_SUCCESS,
+  EXPERT_APPROVE_FAIL,
+  EXPERT_APPROVE_REQUEST,
+  EXPERT_APPROVE_SUCCESS,
   USER_DELETE_FAIL,
   USER_DELETE_REQUEST,
   USER_DELETE_SUCCESS,
@@ -302,6 +305,46 @@ export const updateUser = (user) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+// Approve Expert From Admin // Passing in User Object
+export const approveExpert = (user) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: EXPERT_APPROVE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/users/approve/${user._id}`, user, config);
+
+    dispatch({
+      type: EXPERT_APPROVE_SUCCESS,
+      // payload: data, // No Payload Since its gonna be a Success
+    });
+
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: EXPERT_APPROVE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

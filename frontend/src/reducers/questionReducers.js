@@ -1,4 +1,7 @@
 import {
+  ANSWER_DELETE_FAIL,
+  ANSWER_DELETE_REQUEST,
+  ANSWER_DELETE_SUCCESS,
   ANSWER_UPDATE_FAIL,
   ANSWER_UPDATE_REQUEST,
   ANSWER_UPDATE_RESET,
@@ -11,6 +14,9 @@ import {
   QUESTION_CREATE_REQUEST,
   QUESTION_CREATE_RESET,
   QUESTION_CREATE_SUCCESS,
+  QUESTION_DELETE_FAIL,
+  QUESTION_DELETE_REQUEST,
+  QUESTION_DELETE_SUCCESS,
   QUESTION_DETAILS_FAIL,
   QUESTION_DETAILS_REQUEST,
   QUESTION_DETAILS_SUCCESS,
@@ -18,6 +24,10 @@ import {
   QUESTION_LIST_REQUEST,
   QUESTION_LIST_RESET,
   QUESTION_LIST_SUCCESS,
+  QUESTION_UPDATE_FAIL,
+  QUESTION_UPDATE_REQUEST,
+  QUESTION_UPDATE_RESET,
+  QUESTION_UPDATE_SUCCESS,
 } from "../constants/questionConstants";
 
 export const questionCreateReducer = (state = {}, action) => {
@@ -52,13 +62,43 @@ export const questionListReducer = (state = { questions: [] }, action) => {
   }
 };
 
+export const questionUpdateReducer = (state = { question: {} }, action) => {
+  switch (action.type) {
+    case QUESTION_UPDATE_REQUEST:
+      return { loading: true };
+    case QUESTION_UPDATE_SUCCESS:
+      return { loading: false, success: true, question: action.payload };
+    case QUESTION_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case QUESTION_UPDATE_RESET:
+      return {
+        product: {},
+      };
+    default:
+      return state;
+  }
+};
+
+export const questionDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case QUESTION_DELETE_REQUEST:
+      return { loading: true }; 
+    case QUESTION_DELETE_SUCCESS:
+      return { loading: false, success: true }; 
+    case QUESTION_DELETE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
 export const questionDetailsReducer = (
   state = { question: { answers: [] } },
   action
 ) => {
   switch (action.type) {
     case QUESTION_DETAILS_REQUEST:
-      return { loading: true, ...state }; // we Show whatever in this state using spread Operator
+      return { loading: true, ...state };
     case QUESTION_DETAILS_SUCCESS:
       return { loading: false, question: action.payload };
     case QUESTION_DETAILS_FAIL:
@@ -95,6 +135,19 @@ export const answerUpdateReducer = (state = { answer: {} }, action) => {
       return {
         answer: {},
       };
+    default:
+      return state;
+  }
+};
+
+export const answerDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ANSWER_DELETE_REQUEST:
+      return { loading: true }; 
+    case ANSWER_DELETE_SUCCESS:
+      return { loading: false, success: true }; 
+    case ANSWER_DELETE_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

@@ -22,7 +22,7 @@ const createQuestion = asyncHandler(async (req, res) => {
 // @route   GET /api/questions
 // access   Public
 const getQuestions = asyncHandler(async (req, res) => {
-  const questions = await Question.find({}).populate("user", "name email")
+  const questions = await Question.find({}).populate("user", "name email");
   res.json(questions);
 });
 
@@ -37,6 +37,41 @@ const getQuestionById = asyncHandler(async (req, res) => {
 
   if (question) {
     res.json(question);
+  } else {
+    res.status(404);
+    throw new Error("Question Not Found");
+  }
+});
+
+// @desc    Update a Question
+// @route   PUT /api/questions/:id
+// access   Private/User|Student
+const updateQuestion = asyncHandler(async (req, res) => {
+  const { question, image } = req.body;
+
+  const questionFind = await Question.findById(req.params.id);
+
+  if (questionFind) {
+    questionFind.question = question;
+    questionFind.image = image;
+
+    const updatedQuestion = await questionFind.save();
+    res.json(updatedQuestion);
+  } else {
+    res.status(404);
+    throw new Error("Question Not Found");
+  }
+});
+
+// @desc    Delete a Question
+// @route   DELETE /api/questions/:id
+// access   Private/Admin
+const deleteQuestion = asyncHandler(async (req, res) => {
+  const questionFind = await Question.findById(req.params.id);
+
+  if (questionFind) {
+    await questionFind.remove();
+    res.json({ message: "Question Removed" });
   } else {
     res.status(404);
     throw new Error("Question Not Found");
@@ -152,4 +187,13 @@ const deleteAnswer = asyncHandler(async (req, res) => {
   }
 });
 
-export { createQuestion, createAnswer, updateAnswer, deleteAnswer, getQuestions, getQuestionById };
+export {
+  createQuestion,
+  createAnswer,
+  updateAnswer,
+  deleteAnswer,
+  getQuestions,
+  getQuestionById,
+  updateQuestion,
+  deleteQuestion,
+};

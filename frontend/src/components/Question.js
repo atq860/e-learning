@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -10,6 +11,9 @@ import {
 } from "react-bootstrap";
 
 const Question = ({ question }) => {
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   return (
     <ListGroup>
       <ListGroupItem

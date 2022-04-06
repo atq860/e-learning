@@ -9,6 +9,7 @@ import FormContainer from "../components/FormContainer";
 import { createQuestion, listQuestions } from "../actions/questionActions";
 import { QUESTION_CREATE_RESET } from "../constants/questionConstants";
 import { useNavigate } from "react-router-dom";
+import { userType } from "../constants/userType";
 
 const QuestionPostScreen = () => {
   const [category, setCategory] = useState("");
@@ -22,7 +23,13 @@ const QuestionPostScreen = () => {
   const questionCreate = useSelector((state) => state.questionCreate);
   const { loading, error, question, success } = questionCreate;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
+    if(!userInfo || (userInfo && userInfo.type !== userType.USER)) {
+      navigate("/");
+    }
     if (success) {
       setCategory("");
       setNewQuestion("");
@@ -32,7 +39,7 @@ const QuestionPostScreen = () => {
 
       dispatch(listQuestions());
     }
-  }, [navigate, dispatch, success]);
+  }, [userInfo, navigate, dispatch, success]);
 
   // this is async since we are passing http request
   const uploadFileHandler = async (e) => {
@@ -105,14 +112,16 @@ const QuestionPostScreen = () => {
             >
               <option value="">Select...</option>
               <option value="maths">Calculus/Maths</option>
-              <option value="pf">Programming Fundamental</option>
               <option value="physics">Physics</option>
-              <option value="oop">Object Oriented Programming</option>
-              <option value="ds">Data Science</option>
+              <option value="sciences">General Sciences</option>
+              <option value="chemistry">Chemistry</option>
+              <option value="english">English</option>
+              <option value="computer">Computer</option>
+              <option value="business">Business/Finance</option>
             </Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="question">
+          <Form.Group controlId="question" className="mt-3">
             <Form.Label>Question</Form.Label>
 
             <Form.Control
@@ -123,7 +132,7 @@ const QuestionPostScreen = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="image">
+          <Form.Group controlId="image" className="mt-3">
             <Form.Label>Image</Form.Label>
             <Form.Control
               type="text"
@@ -150,7 +159,7 @@ const QuestionPostScreen = () => {
             
           </Form.Group>
 
-          <Button type="submit" variant="primary">
+          <Button type="submit" variant="primary" className="mt-3">
             Post
           </Button>
         </Form>
