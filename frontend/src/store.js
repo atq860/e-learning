@@ -20,6 +20,7 @@ import {
   questionUpdateReducer,
   questionDeleteReducer,
   answerDeleteReducer,
+  questionCloseReducer,
 } from "./reducers/questionReducers";
 
 const reducer = combineReducers({
@@ -30,6 +31,7 @@ const reducer = combineReducers({
   questionDelete: questionDeleteReducer,
   questionList: questionListReducer,
   questionDetails: questionDetailsReducer,
+  questionClose: questionCloseReducer,
   questionAnswerCreate: questionAnswerCreateReducer,
   answerUpdate: answerUpdateReducer,
   answerDelete: answerDeleteReducer,

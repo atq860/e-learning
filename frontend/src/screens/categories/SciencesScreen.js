@@ -16,12 +16,6 @@ import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import { listQuestions } from "../../actions/questionActions";
 import Question from "../../components/Question";
-// import {
-//   CONSULTANT_CREATE_REVIEW_RESET,
-//   USER_UPDATE_RESET,
-// } from "../constants/userConstants";
-// import Rating from "../components/Rating";
-// import { userType } from "../constants/userType";
 
 const SciencesScreen = () => {
   const dispatch = useDispatch();

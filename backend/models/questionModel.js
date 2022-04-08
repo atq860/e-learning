@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const answerSchema = mongoose.Schema(
   {
     name: { type: String, required: true },
+    userType: { type: String },
     answer: { type: String, required: true },
     answerImage: { type: String },
 
@@ -48,6 +49,12 @@ const questionSchema = mongoose.Schema(
 
     image: {
       type: String,
+    },
+
+    isClosed: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
 

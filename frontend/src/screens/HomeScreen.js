@@ -14,12 +14,10 @@ function HomeScreen() {
 
   return (
     <>
-      {userInfo && userInfo.type === userType.USER && (
-        <div>
-          <Button className="mt-3 btn btn-info" onClick={handlePost}>
-            Post Question
-          </Button>
-        </div>
+      {userInfo && (
+        <h1>
+          Welcome, {userInfo.name}
+        </h1>
       )}
 
       <div
@@ -132,7 +130,7 @@ function HomeScreen() {
 
       <div style={{ textAlign: "center" }}>
         <h1 style={{ fontSize: "3rem" }}>
-          94% of Our customers say they get better grades when they use Chegg to
+          94% of Our customers say they get better grades when they use our platform to
           understand their coursework
         </h1>
       </div>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./components/Header";
@@ -7,8 +8,6 @@ import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
 import QuestionPostScreen from "./screens/QuestionPostScreen";
 import MathsScreen from "./screens/categories/MathsScreen";
-// import MathsQuestionScreen from "./screens/categories/MathsQuestionScreen";
-// import MathsAnswerScreen from "./screens/categories/MathsAnswerScreen";
 import QuestionScreen from "./screens/QuestionScreen";
 import AnswerEditScreen from "./screens/AnswerEditScreen";
 import PhysicsScreen from "./screens/categories/PhysicsScreen";
@@ -25,12 +24,23 @@ import ProfileScreen from "./screens/ProfileScreen";
 import QuestionEditScreen from "./screens/QuestionEditScreen";
 
 function App() {
+  const [success, setSuccess] = useState(null);
+
+  const successProfile = (value) => {
+    setSuccess(value);
+  };
+
+  console.log("Success Value ", success);
+
   return (
     <Router>
       <Header />
+
       <main /* style={{ background: "#F5F5F5" }} */>
         <Container>
           <Routes>
+            {/* <Route render={() => <Header success={success} />}/> */}
+
             <Route path="/" element={<HomeScreen />} exact />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
@@ -43,19 +53,27 @@ function App() {
             <Route path="/questions/english" element={<EnglishScreen />} />
             <Route path="/questions/computer" element={<ComputerScreen />} />
             <Route path="/questions/business" element={<BusinessScreen />} />
-
-            {/* <Route path="/questions/maths/:id" element={<MathsQuestionScreen />} />
-            <Route path="/questions/maths/:id/answers/:answerId" element={<MathsAnswerScreen />} /> */}
-
             <Route path="/question/:id" element={<QuestionScreen />} />
             <Route path="/question/:id/edit" element={<QuestionEditScreen />} />
-            <Route path="/question/:id/answer/:answerId" element={<AnswerEditScreen />} />
+            <Route
+              path="/question/:id/answer/:answerId"
+              element={<AnswerEditScreen />}
+            />
 
-          <Route path="/admin/userlist" element={<UserListScreen />} />
-          <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
-          <Route path="/admin/pendingExperts" element={<PendingExpertsScreen />} />
-          <Route path="/admin/pendingExperts/:id/approve" element={<ExpertApproveScreen />} />
-          <Route path="/profile" element={<ProfileScreen/>} />
+            <Route path="/admin/userlist" element={<UserListScreen />} />
+            <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+            <Route
+              path="/admin/pendingExperts"
+              element={<PendingExpertsScreen />}
+            />
+            <Route
+              path="/admin/pendingExperts/:id/approve"
+              element={<ExpertApproveScreen />}
+            />
+            <Route
+              path="/profile"
+              element={<ProfileScreen successProfile={successProfile} />}
+            />
           </Routes>
         </Container>
       </main>

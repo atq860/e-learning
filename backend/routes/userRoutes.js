@@ -11,9 +11,6 @@ import {
   deleteUser,
   getUserById,
   updateUser,
-  // getConsultants,
-  // registerConsultant,
-  // createConsultantReview,
 } from "../controllers/userController.js";
 import { admin, protect, user } from "../middleware/authMiddleware.js";
 
@@ -30,10 +27,5 @@ router
   .delete(protect, admin, deleteUser)
   .get(protect, getUserById)
   .put(protect, admin, updateUser);
-
-// router.route("/consultants").get(getConsultants);
-// router.route("/:id/reviews").post(protect, user, createConsultantReview);
-
-// router.route("/registerConsultant").post(registerConsultant);
 
 export default router;

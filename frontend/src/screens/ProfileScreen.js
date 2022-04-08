@@ -12,7 +12,7 @@ import { userType } from "../constants/userType";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 import { useNavigate } from "react-router-dom";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ successProfile }) => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
@@ -35,6 +35,9 @@ const ProfileScreen = () => {
   const { success } = userUpdateProfile;
 
   useEffect(() => {
+    if(success) {
+      successProfile(success)
+    }
     if (!userInfo) {
       navigate("/login");
     } else {

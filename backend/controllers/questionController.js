@@ -78,11 +78,30 @@ const deleteQuestion = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Close Question Discussion
+// @route   PUT /api/questions/:id/close
+// access   Private/USER|STUDENT
+const closeQuestionDiscussion = asyncHandler(async (req, res) => {
+  const question = await Question.findById(req.params.id);
+
+  if (question) {
+    question.isClosed = true;
+
+    const closedQuestion = await question.save();
+    res.json(closedQuestion);
+  } else {
+    res.status(404);
+    throw new Error("Question Not Found");
+  }
+});
+
 // @desc    Create new Answer of a Question
 // @route   POST /api/questions/:id/answers
 // @access  Private/Expert
 const createAnswer = asyncHandler(async (req, res) => {
   const { answer, answerImage } = req.body;
+
+  console.log("sdfs ", req.user.type);
 
   const solution = await Question.findById(req.params.id);
 
@@ -98,6 +117,7 @@ const createAnswer = asyncHandler(async (req, res) => {
 
     const newAnswer = {
       name: req.user.name,
+      userType: req.user.type,
       answer,
       answerImage,
       user: req.user._id,
@@ -196,4 +216,5 @@ export {
   getQuestionById,
   updateQuestion,
   deleteQuestion,
+  closeQuestionDiscussion
 };

@@ -6,6 +6,9 @@ import {
   ANSWER_UPDATE_FAIL,
   ANSWER_UPDATE_REQUEST,
   ANSWER_UPDATE_SUCCESS,
+  QUESTION_CLOSE_FAIL,
+  QUESTION_CLOSE_REQUEST,
+  QUESTION_CLOSE_SUCCESS,
   QUESTION_CREATE_ANSWER_FAIL,
   QUESTION_CREATE_ANSWER_REQUEST,
   QUESTION_CREATE_ANSWER_SUCCESS,
@@ -134,13 +137,9 @@ export const updateQuestion = (id, question) => async (dispatch, getState) => {
       },
     };
 
-    console.log('Question in Action ', question);
+    console.log("Question in Action ", question);
 
-    const { data } = await axios.put(
-      `/api/questions/${id}`,
-      question,
-      config
-    );
+    const { data } = await axios.put(`/api/questions/${id}`, question, config);
 
     dispatch({
       type: QUESTION_UPDATE_SUCCESS,
@@ -250,25 +249,29 @@ export const updateAnswer =
     }
   };
 
-  export const deleteAnswer = (questionId, answerId) => async (dispatch, getState) => {
+export const deleteAnswer =
+  (questionId, answerId) => async (dispatch, getState) => {
     try {
       dispatch({
         type: ANSWER_DELETE_REQUEST,
       });
-  
+
       const {
         userLogin: { userInfo },
       } = getState();
-  
+
       const config = {
         headers: {
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
-  
+
       // we are not passing the order, as its already there, we just want paitAt and all that info
-      await axios.delete(`/api/questions/${questionId}/answers/${answerId}`, config);
-  
+      await axios.delete(
+        `/api/questions/${questionId}/answers/${answerId}`,
+        config
+      );
+
       dispatch({
         type: ANSWER_DELETE_SUCCESS,
       });
@@ -282,3 +285,47 @@ export const updateAnswer =
       });
     }
   };
+
+// Approve Expert From Admin // Passing in User Object
+export const closeQuestion = (question) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: QUESTION_CLOSE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/questions/${question._id}/close`,
+      question,
+      config
+    );
+
+    dispatch({
+      type: QUESTION_CLOSE_SUCCESS,
+      payload: data,
+    });
+
+    // dispatch({
+    //   type: USER_DETAILS_SUCCESS,
+    //   payload: data,
+    // });
+  } catch (error) {
+    dispatch({
+      type: QUESTION_CLOSE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

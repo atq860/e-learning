@@ -14,9 +14,3 @@ const errorHandler = (err, req, res, next) => {
 };
 
 export { notFound, errorHandler };
-
-// This is my Custom Middleware
-// app.use((req, res, next) => {
-//   console.log(req.originalUrl);
-//   next();
-// });

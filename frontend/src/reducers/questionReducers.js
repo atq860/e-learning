@@ -6,6 +6,10 @@ import {
   ANSWER_UPDATE_REQUEST,
   ANSWER_UPDATE_RESET,
   ANSWER_UPDATE_SUCCESS,
+  QUESTION_CLOSE_FAIL,
+  QUESTION_CLOSE_REQUEST,
+  QUESTION_CLOSE_RESET,
+  QUESTION_CLOSE_SUCCESS,
   QUESTION_CREATE_ANSWER_FAIL,
   QUESTION_CREATE_ANSWER_REQUEST,
   QUESTION_CREATE_ANSWER_RESET,
@@ -82,9 +86,9 @@ export const questionUpdateReducer = (state = { question: {} }, action) => {
 export const questionDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case QUESTION_DELETE_REQUEST:
-      return { loading: true }; 
+      return { loading: true };
     case QUESTION_DELETE_SUCCESS:
-      return { loading: false, success: true }; 
+      return { loading: false, success: true };
     case QUESTION_DELETE_FAIL:
       return { loading: false, error: action.payload };
     default:
@@ -143,11 +147,28 @@ export const answerUpdateReducer = (state = { answer: {} }, action) => {
 export const answerDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case ANSWER_DELETE_REQUEST:
-      return { loading: true }; 
+      return { loading: true };
     case ANSWER_DELETE_SUCCESS:
-      return { loading: false, success: true }; 
+      return { loading: false, success: true };
     case ANSWER_DELETE_FAIL:
       return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const questionCloseReducer = (state = { question: {} }, action) => {
+  switch (action.type) {
+    case QUESTION_CLOSE_REQUEST:
+      return { loading: true };
+    case QUESTION_CLOSE_SUCCESS:
+      return { loading: false, success: true, question: action.payload };
+    case QUESTION_CLOSE_FAIL:
+      return { loading: false, error: action.payload };
+    case QUESTION_CLOSE_RESET:
+      return {
+        user: {},
+      };
     default:
       return state;
   }

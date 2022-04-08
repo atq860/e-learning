@@ -19,6 +19,7 @@ const authUser = asyncHandler(async (req, res) => {
         email: user.email,
         type: user.type,
         isApproved: user.isApproved,
+        image: user.image,
         token: generateToken(user._id),
       });
     } else {
@@ -75,6 +76,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       type: user.type,
       isApproved: user.isApproved,
+      image: user.image,
       token: generateToken(user._id),
     });
   } else {
@@ -120,6 +122,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       type: updatedUser.type,
+      image: updatedUser.image,
       token: generateToken(updatedUser._id),
     });
   } else {
@@ -218,104 +221,6 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-// ________________ Consultant _________________
-// @desc    Register a new Seller
-// @route   POST /api/users/registerConsultant
-// @access  Public
-const registerConsultant = asyncHandler(async (req, res) => {
-  const { name, password, phone, cnic, country, city, town, image } = req.body;
-
-  const userExists = await User.findOne({ email });
-
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exists");
-  }
-
-  const user = await User.create({
-    name,
-    image,
-    password,
-    phone,
-    cnic,
-    country: country.toLowerCase(),
-    city: city.toLowerCase(),
-    town: town.toLowerCase(),
-    type: userType.CONSULTANT,
-  });
-
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      type: user.type,
-      phone: user.phone,
-      cnic: user.cnic,
-      country: user.country,
-      city: user.city,
-      town: user.town,
-      image: user.image,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(400);
-    throw new Error("Invalid user data");
-  }
-});
-
-// @desc    GET all Consultants
-// @route   GET /api/consultants
-// access   Public
-const getConsultants = asyncHandler(async (req, res) => {
-  const users = await User.find({});
-
-  const consultants = users.filter((user) => user.type === userType.CONSULTANT);
-
-  res.json(consultants);
-});
-
-// @desc    Create new review
-// @route   POST /api/users/:id/reviews
-// @access  Private/buyer
-const createConsultantReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body;
-
-  const seller = await User.findById(req.params.id);
-
-  if (seller) {
-    const alreadyReviewed = seller.reviews.find(
-      (r) => r.user.toString() === req.user._id.toString()
-    );
-
-    if (alreadyReviewed) {
-      res.status(400);
-      throw new Error("You have already reviewed");
-    }
-
-    const review = {
-      name: req.user.name,
-      rating: Number(rating),
-      comment,
-      user: req.user._id,
-    };
-
-    seller.reviews.push(review);
-
-    seller.numReviews = seller.reviews.length;
-
-    seller.rating =
-      seller.reviews.reduce((acc, item) => item.rating + acc, 0) /
-      seller.reviews.length;
-
-    await seller.save();
-    res.status(201).json({ message: "Review added" });
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-});
-
 export {
   authUser,
   registerUser,
@@ -327,7 +232,4 @@ export {
   deleteUser,
   updateUserProfile,
   getUserProfile,
-  // getConsultants,
-  // registerConsultant,
-  // createConsultantReview,
 };

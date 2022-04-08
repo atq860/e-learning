@@ -1,6 +1,10 @@
 main {
-  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   min-height: 80.8vh;
+}
+
+.dropdown-toggle {
+  visibility: hidden;
 }
 
 h3 {
@@ -58,4 +62,44 @@ h2 {
 
 .icon-margin {
   margin-left: 15px;
+}
+
+/* ___ */
+
+.userImg {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.showImage {
+  visibility: visible;
+}
+
+.messages {
+  margin-top: 4.5px;
+  font-weight: 500;
+  margin-inline: 4px;
+  font-size: 17px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.userName {
+  margin-top: 13px;
+  font-weight: 500;
+  margin-inline: 4px;
+  font-size: 17px;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.userName-align {
+  margin-top: -1.8rem;
+  padding-bottom: 1rem;
+  margin-left: 3rem;
+}
+
+.adminName-align {
+  margin-top: -4rem;
 }

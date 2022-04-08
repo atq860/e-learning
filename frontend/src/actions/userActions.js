@@ -1,15 +1,6 @@
 import axios from "axios";
 // import { ORDER_LIST_MY_RESET } from "../constants/orderConstants";
 import {
-  CONSULTANT_CREATE_REVIEW_FAIL,
-  CONSULTANT_CREATE_REVIEW_REQUEST,
-  CONSULTANT_CREATE_REVIEW_SUCCESS,
-  CONSULTANT_LIST_FAIL,
-  CONSULTANT_LIST_REQUEST,
-  CONSULTANT_LIST_SUCCESS,
-  CONSULTANT_REGISTER_FAIL,
-  CONSULTANT_REGISTER_REQUEST,
-  CONSULTANT_REGISTER_SUCCESS,
   EXPERT_APPROVE_FAIL,
   EXPERT_APPROVE_REQUEST,
   EXPERT_APPROVE_SUCCESS,
@@ -112,7 +103,7 @@ export const register = (info) => async (dispatch) => {
         type: USER_LOGIN_SUCCESS,
         payload: data,
       });
-      
+
       // Getting values from AuthUser from backend, which is id, name, password, token
       localStorage.setItem("userInfo", JSON.stringify(data));
     }
@@ -331,7 +322,11 @@ export const approveExpert = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`/api/users/approve/${user._id}`, user, config);
+    const { data } = await axios.put(
+      `/api/users/approve/${user._id}`,
+      user,
+      config
+    );
 
     dispatch({
       type: EXPERT_APPROVE_SUCCESS,
@@ -352,103 +347,3 @@ export const approveExpert = (user) => async (dispatch, getState) => {
     });
   }
 };
-
-// __________ CONSULTANT ____________
-export const registerConsultant = (consultant) => async (dispatch) => {
-  try {
-    dispatch({
-      type: CONSULTANT_REGISTER_REQUEST,
-    });
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const { data } = await axios.post(
-      "/api/users/registerConsultant",
-      consultant,
-      config
-    );
-
-    dispatch({
-      type: CONSULTANT_REGISTER_SUCCESS,
-      payload: data,
-    });
-
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: data,
-    });
-
-    localStorage.setItem("userInfo", JSON.stringify(data));
-  } catch (error) {
-    dispatch({
-      type: CONSULTANT_REGISTER_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-
-// List and Show all the Consultants
-export const listConsultants = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: CONSULTANT_LIST_REQUEST,
-    });
-
-    const { data } = await axios.get(`/api/users/consultants`);
-
-    dispatch({
-      type: CONSULTANT_LIST_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: CONSULTANT_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
-
-export const createConsultantReview =
-  (userId, review) => async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: CONSULTANT_CREATE_REVIEW_REQUEST,
-      });
-
-      const {
-        userLogin: { userInfo },
-      } = getState();
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      await axios.post(`/api/users/${userId}/reviews`, review, config);
-
-      dispatch({
-        type: CONSULTANT_CREATE_REVIEW_SUCCESS,
-      });
-    } catch (error) {
-      const message =
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message;
-      dispatch({
-        type: CONSULTANT_CREATE_REVIEW_FAIL,
-        payload: message,
-      });
-    }
-  };

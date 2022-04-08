@@ -1,15 +1,4 @@
 import {
-  CONSULTANT_CREATE_REVIEW_FAIL,
-  CONSULTANT_CREATE_REVIEW_REQUEST,
-  CONSULTANT_CREATE_REVIEW_RESET,
-  CONSULTANT_CREATE_REVIEW_SUCCESS,
-  CONSULTANT_LIST_FAIL,
-  CONSULTANT_LIST_REQUEST,
-  CONSULTANT_LIST_RESET,
-  CONSULTANT_LIST_SUCCESS,
-  CONSULTANT_REGISTER_FAIL,
-  CONSULTANT_REGISTER_REQUEST,
-  CONSULTANT_REGISTER_SUCCESS,
   EXPERT_APPROVE_FAIL,
   EXPERT_APPROVE_REQUEST,
   EXPERT_APPROVE_RESET,
@@ -121,7 +110,6 @@ export const userListReducer = (state = { users: [] }, action) => {
   }
 };
 
-// State is gona be the Empty, no user inside it
 export const userDeleteReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_DELETE_REQUEST:
@@ -153,7 +141,6 @@ export const userUpdateReducer = (state = { user: {} }, action) => {
   }
 };
 
-// Update User from Only ADMIN
 export const expertApproveReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case EXPERT_APPROVE_REQUEST:
@@ -171,50 +158,3 @@ export const expertApproveReducer = (state = { user: {} }, action) => {
   }
 };
 
-// _________ Consultant _____________
-export const consultantRegisterReducer = (state = {}, action) => {
-  switch (action.type) {
-    case CONSULTANT_REGISTER_REQUEST:
-      return { loading: true };
-    case CONSULTANT_REGISTER_SUCCESS:
-      return { loading: false, success: true, userInfo: action.payload };
-    case CONSULTANT_REGISTER_FAIL:
-      return { loading: false, error: action.payload };
-    case USER_LOGOUT:
-      return {};
-    default:
-      return state;
-  }
-};
-
-export const consultantListReducer = (state = { consultants: [] }, action) => {
-  switch (action.type) {
-    case CONSULTANT_LIST_REQUEST:
-      return { loading: true };
-    case CONSULTANT_LIST_SUCCESS:
-      return { loading: false, success: true, consultants: action.payload };
-    case CONSULTANT_LIST_FAIL:
-      return { loading: false, error: action.payload };
-    case CONSULTANT_LIST_RESET:
-      return {
-        consultants: [],
-      };
-    default:
-      return state;
-  }
-};
-
-export const consultantReviewCreateReducer = (state = {}, action) => {
-  switch (action.type) {
-    case CONSULTANT_CREATE_REVIEW_REQUEST:
-      return { loading: true };
-    case CONSULTANT_CREATE_REVIEW_SUCCESS:
-      return { loading: false, success: true };
-    case CONSULTANT_CREATE_REVIEW_FAIL:
-      return { loading: false, error: action.payload };
-    case CONSULTANT_CREATE_REVIEW_RESET:
-      return {};
-    default:
-      return state;
-  }
-};

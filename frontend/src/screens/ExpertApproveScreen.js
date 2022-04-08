@@ -19,7 +19,6 @@ const UserEditScreen = () => {
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
-  // const [makeAdmin, setMakeAdmin] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -46,7 +45,6 @@ const UserEditScreen = () => {
         setCountry(user.country);
         setCity(user.city);
         setPhone(user.phone);
-        // setMakeAdmin(user.type);
       }
     }
   }, [user, dispatch, userId, successApprove]);
@@ -54,7 +52,6 @@ const UserEditScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(approveExpert(user));
-    // dispatch(updateUser({ _id: userId, name /* email, makeAdmin */ }));
   };
 
   return (

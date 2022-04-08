@@ -5,6 +5,7 @@ import {
   listQuestionDetails,
   deleteQuestion,
   deleteAnswer,
+  closeQuestion,
 } from "../actions/questionActions";
 import { useParams } from "react-router-dom";
 import Question from "../components/Question";
@@ -25,6 +26,7 @@ import {
 } from "react-bootstrap";
 import { QUESTION_CREATE_ANSWER_RESET } from "../constants/questionConstants";
 import { useNavigate } from "react-router-dom";
+import { userType } from "../constants/userType";
 
 function QuestionScreen() {
   const [newAnswer, setNewAnswer] = useState("");
@@ -38,6 +40,9 @@ function QuestionScreen() {
 
   const questionDelete = useSelector((state) => state.questionDelete);
   const { success: successQuestionDelete } = questionDelete;
+
+  const questionClose = useSelector((state) => state.questionClose);
+  const { success: successQuestionClose } = questionClose;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -55,13 +60,13 @@ function QuestionScreen() {
   const { success: successAnswerDelete } = answerDelete;
 
   useEffect(() => {
-    if (!userInfo) {
-      navigate("/login");
-    }
+    // if (!userInfo) {
+    //   navigate("/login");
+    // }
     if (successQuestionDelete) {
       navigate("/");
     }
-    if (successAnswerDelete) {
+    if (successAnswerDelete || successQuestionClose) {
       dispatch(listQuestionDetails(params.id));
     }
     if (successQuestionAnswer) {
@@ -78,7 +83,7 @@ function QuestionScreen() {
     userInfo,
     successQuestionDelete,
     navigate,
-    // params.id,
+    successQuestionClose,
   ]);
 
   const submitHandler = (e) => {
@@ -95,6 +100,13 @@ function QuestionScreen() {
   const deleteAnswerHandler = (questionId, answerId) => {
     if (window.confirm("Are You Sure")) {
       dispatch(deleteAnswer(questionId, answerId));
+    }
+  };
+
+  const closeQuestionHandler = (question) => {
+    console.log("aksd ", question);
+    if (window.confirm("Are You Sure")) {
+      dispatch(closeQuestion(question));
     }
   };
 
@@ -186,8 +198,19 @@ function QuestionScreen() {
           {/* Solutions */}
           <Row>
             <Col md={6}>
+              {question?.user?._id === userInfo?._id && (
+                <Button
+                  variant="warning"
+                  className="float-right"
+                  onClick={() => closeQuestionHandler(question)}
+                >
+                  Close Discussion
+                </Button>
+              )}
               <h2>Solutions</h2>
-              {question.answers.length === 0 && <div>No Solution</div>}
+              {question.answers.length === 0 && (
+                <Message variant="info">No Solution</Message>
+              )}
               <ListGroup variant="flush">
                 {question.answers.map((answer) => (
                   <ListGroupItem
@@ -209,7 +232,15 @@ function QuestionScreen() {
                           <span style={{ fontSize: "1rem", fontWeight: 500 }}>
                             Posted by:{" "}
                           </span>
-                          {answer.name}
+                          {answer.name} (
+                          {answer.user === question.user._id ? (
+                            <>Author</>
+                          ) : answer.userType === userType.EXPERT ? (
+                            <>Expert</>
+                          ) : (
+                            <>Student</>
+                          )}
+                          )
                         </div>
                         <div>
                           <span style={{ fontSize: "1rem", fontWeight: 500 }}>
@@ -252,22 +283,32 @@ function QuestionScreen() {
                     <Message>{errorQuestionAnswer}</Message>
                   )}
                   {userInfo ? (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group controlId="comment">
-                        <Form.Label>Solution</Form.Label>
+                    <>
+                      {question?.isClosed ? (
+                        <Message variant="info">Question is Closed</Message>
+                      ) : (
+                        <Form onSubmit={submitHandler}>
+                          <Form.Group controlId="comment">
+                            <Form.Label>Solution</Form.Label>
 
-                        <Form.Control
-                          as="textarea"
-                          row="3"
-                          value={newAnswer}
-                          onChange={(e) => setNewAnswer(e.target.value)}
-                        ></Form.Control>
-                      </Form.Group>
+                            <Form.Control
+                              as="textarea"
+                              row="3"
+                              value={newAnswer}
+                              onChange={(e) => setNewAnswer(e.target.value)}
+                            ></Form.Control>
+                          </Form.Group>
 
-                      <Button type="submit" variant="primary" className="mt-3">
-                        Post
-                      </Button>
-                    </Form>
+                          <Button
+                            type="submit"
+                            variant="primary"
+                            className="mt-3"
+                          >
+                            Post
+                          </Button>
+                        </Form>
+                      )}
+                    </>
                   ) : (
                     <div>
                       Please <Link to="/login">sign in</Link> to Post a Solution
