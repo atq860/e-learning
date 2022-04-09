@@ -38,13 +38,27 @@ const Header = ({ success }) => {
           backgroundColor:
             userInfo && userInfo.type === userType.EXPERT
               ? "rgb(235, 113, 0)"
+              : userInfo && userInfo.type === userType.ADMIN
+              ? "#343a40"
               : "#4582ec",
         }}
       >
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>Ask Me</Navbar.Brand>
+
+            {/* <Navbar.Brand className="mobilee-logo">
+              <LinkContainer to="/">
+                <img src="\logo192.png" alt="logo" className="logoImage" />
+              </LinkContainer>
+            </Navbar.Brand> */}
           </LinkContainer>
+          {userInfo?.type === userType.EXPERT && (
+            <div style={{ color: "white" }}>({userType.EXPERT})</div>
+          )}
+          {userInfo?.type === userType.ADMIN && (
+            <div style={{ color: "white" }}>({userType.ADMIN})</div>
+          )}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav>
@@ -76,14 +90,13 @@ const Header = ({ success }) => {
                 <LinkContainer to="/questions/business">
                   <NavDropdown.Item>Business/Finance</NavDropdown.Item>
                 </LinkContainer>
+                <LinkContainer to="/questions/other">
+                  <NavDropdown.Item>Other</NavDropdown.Item>
+                </LinkContainer>
               </NavDropdown>
 
               <LinkContainer to="/start-reading">
-                <Nav.Link /* className="messages" */>
-                  {/* <div style={{ color: "rgba(0, 0, 0, 0.55)" }}> */}
-                  Start Reading
-                  {/* </div> */}
-                </Nav.Link>
+                <Nav.Link>Start Reading</Nav.Link>
               </LinkContainer>
               <LinkContainer to="/support">
                 <Nav.Link>Support</Nav.Link>
@@ -101,11 +114,11 @@ const Header = ({ success }) => {
             <Nav className="ml-auto">
               {userInfo ? (
                 <>
-                  {userInfo.type === userType.USER && (
+                  {/* {userInfo.type === userType.USER && (
                     <Button onClick={() => navigate("/post-a-question")}>
                       Post a Question
                     </Button>
-                  )}
+                  )} */}
                   {/* Responsive Start*/}
                   <div className="d-block d-lg-none mt-4">
                     <img
@@ -134,6 +147,13 @@ const Header = ({ success }) => {
                   </div>
                   {/* Responsive End */}
 
+                  <div
+                    className="userName d-none d-lg-block"
+                    style={{ color: "white" }}
+                  >
+                    {userInfo.name}
+                  </div>
+
                   <NavDropdown
                     title={
                       <img
@@ -149,11 +169,11 @@ const Header = ({ success }) => {
                     id="username"
                     className="d-none d-lg-block"
                   >
-                    <ListGroup className="list-group-flush">
+                    {/* <ListGroup className="list-group-flush">
                       <ListGroup.Item style={{ fontSize: "20px" }}>
                         {userInfo.name.split(" ", 1)}
                       </ListGroup.Item>
-                    </ListGroup>
+                    </ListGroup> */}
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>
                         <i className="fas fa-user  icon-padding"></i>
@@ -226,8 +246,8 @@ const Header = ({ success }) => {
                   <LinkContainer to="/admin/pendingExperts">
                     <NavDropdown.Item>Pending Approvals</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/admin/questionlist">
-                    <NavDropdown.Item>Questions</NavDropdown.Item>
+                  <LinkContainer to="/admin/problemlist">
+                    <NavDropdown.Item>Problems</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
               )}

@@ -118,6 +118,7 @@ const QuestionPostScreen = () => {
               <option value="english">English</option>
               <option value="computer">Computer</option>
               <option value="business">Business/Finance</option>
+              <option value="other">Other</option>
             </Form.Control>
           </Form.Group>
 

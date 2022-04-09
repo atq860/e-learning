@@ -22,6 +22,10 @@ import PendingExpertsScreen from "./screens/PendingExpertsScreens";
 import ExpertApproveScreen from "./screens/ExpertApproveScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import QuestionEditScreen from "./screens/QuestionEditScreen";
+import OtherScreen from "./screens/categories/OtherScreen";
+import SupportScreen from "./screens/SupportScreen";
+import SupportListScreen from "./screens/SupportListScreen";
+import FAQScreen from "./screens/FAQScreen";
 
 function App() {
   const [success, setSuccess] = useState(null);
@@ -53,6 +57,8 @@ function App() {
             <Route path="/questions/english" element={<EnglishScreen />} />
             <Route path="/questions/computer" element={<ComputerScreen />} />
             <Route path="/questions/business" element={<BusinessScreen />} />
+            <Route path="/questions/other" element={<OtherScreen />} />
+
             <Route path="/question/:id" element={<QuestionScreen />} />
             <Route path="/question/:id/edit" element={<QuestionEditScreen />} />
             <Route
@@ -74,6 +80,9 @@ function App() {
               path="/profile"
               element={<ProfileScreen successProfile={successProfile} />}
             />
+            <Route path="/support" element={<SupportScreen />} />
+            <Route path="/admin/problemlist" element={<SupportListScreen />} exact />
+            <Route path="/faq" element={<FAQScreen />} />
           </Routes>
         </Container>
       </main>

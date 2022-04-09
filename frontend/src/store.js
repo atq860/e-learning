@@ -22,6 +22,7 @@ import {
   answerDeleteReducer,
   questionCloseReducer,
 } from "./reducers/questionReducers";
+import { problemCreateReducer, problemListReducer } from "./reducers/supportReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -41,6 +42,8 @@ const reducer = combineReducers({
   userUpdate: userUpdateReducer,
   userUpdateProfile: userUpdateProfileReducer,
   expertApprove: expertApproveReducer,
+  problemCreate: problemCreateReducer,
+  problemList: problemListReducer
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

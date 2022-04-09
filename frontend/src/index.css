@@ -3,6 +3,18 @@ main {
   min-height: 80.8vh;
 }
 
+.visually-hidden {
+  visibility: hidden;
+}
+
+.carousel-control-next-icon {
+  margin-left: 5rem;
+}
+
+.carousel-indicators {
+  visibility: hidden;
+}
+
 .dropdown-toggle {
   visibility: hidden;
 }
@@ -102,4 +114,11 @@ h2 {
 
 .adminName-align {
   margin-top: -4rem;
+}
+
+.logoImage {
+  width: 40px;
+  height: 40px;
+  margin: 6px;
+  border-radius: 5%;
 }
