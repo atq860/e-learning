@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Carousel, Image } from "react-bootstrap";
 
 const HomeCarousel = () => {
@@ -21,14 +20,26 @@ const HomeCarousel = () => {
   ];
 
   return (
-    <Carousel fade pause="true" className="bg-dark mt-4">
+    <Carousel
+      fade
+      pause="true"
+      className="bg-dark mt-4"
+      style={{ height: "58vh" }}
+    >
       {imgs.map((img) => (
         <Carousel.Item key={img.id}>
           <Image
             src={img.image}
             alt="Carousel-Image"
-            style={{ borderRadius: "0", width: "92%" }}
-            // className="d-block w-100"
+            style={{
+              width: "85%",
+              height: "48vh",
+              borderRadius: "0",
+              objectFit: "cover",
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
           />
           <Carousel.Caption className="carousel-caption">
             <h2>{img.title}</h2>

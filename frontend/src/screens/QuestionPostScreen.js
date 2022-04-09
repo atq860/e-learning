@@ -1,13 +1,12 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Image } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
 import { createQuestion, listQuestions } from "../actions/questionActions";
-import { QUESTION_CREATE_RESET } from "../constants/questionConstants";
 import { useNavigate } from "react-router-dom";
 import { userType } from "../constants/userType";
 
@@ -21,21 +20,19 @@ const QuestionPostScreen = () => {
   const dispatch = useDispatch();
 
   const questionCreate = useSelector((state) => state.questionCreate);
-  const { loading, error, question, success } = questionCreate;
+  const { loading, error, success } = questionCreate;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if(!userInfo || (userInfo && userInfo.type !== userType.USER)) {
+    if (!userInfo || (userInfo && userInfo.type !== userType.USER)) {
       navigate("/");
     }
     if (success) {
       setCategory("");
       setNewQuestion("");
       setImage("");
-      //   dispatch({ type: QUESTION_CREATE_RESET });
-      //   navigate("/user/questionlist");
 
       dispatch(listQuestions());
     }
@@ -81,12 +78,11 @@ const QuestionPostScreen = () => {
 
   return (
     <>
-      <Link to="/user/questionlist" className="btn btn-light my-3">
+      <Link to="/" className="btn btn-light my-3">
         Go Back
       </Link>
 
       {/* {image && <Image src={image} alt="image" fluid></Image>} */}
-
 
       <FormContainer>
         <h1>Post a Question</h1>
@@ -157,7 +153,6 @@ const QuestionPostScreen = () => {
             ></Form.File> */}
 
             {uploading && <Loader />}
-            
           </Form.Group>
 
           <Button type="submit" variant="primary" className="mt-3">

@@ -1,18 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Navbar,
-  Nav,
-  Container,
-  NavDropdown,
-  ListGroup,
-  Button,
-} from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../actions/userActions";
 import { useNavigate } from "react-router-dom";
 import { userType } from "../constants/userType";
 
-const Header = ({ success }) => {
+const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -23,8 +16,6 @@ const Header = ({ success }) => {
     dispatch(logout());
     navigate("/");
   };
-
-  console.log("Header success", success);
 
   return (
     <header>
@@ -45,7 +36,10 @@ const Header = ({ success }) => {
       >
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>Ask Me</Navbar.Brand>
+            <Navbar.Brand>
+              <img src="\logo192.png" alt="logo" className="logoImage" />
+              Ask Me
+            </Navbar.Brand>
 
             {/* <Navbar.Brand className="mobilee-logo">
               <LinkContainer to="/">
@@ -95,9 +89,14 @@ const Header = ({ success }) => {
                 </LinkContainer>
               </NavDropdown>
 
-              <LinkContainer to="/start-reading">
-                <Nav.Link>Start Reading</Nav.Link>
-              </LinkContainer>
+              {/* <LinkContainer to={{ pathname:`https://www.google.com/`}}> */}
+              <Nav.Link
+                onClick={() => window.open("https://www.google.com", "_blank")}
+              >
+                Start Reading
+              </Nav.Link>
+              {/* <Nav.Link onClick={() => window.location.replace('https://www.google.com', '_blank')}>Start Reading</Nav.Link> */}
+              {/* </LinkContainer> */}
               <LinkContainer to="/support">
                 <Nav.Link>Support</Nav.Link>
               </LinkContainer>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Header from "./components/Header";
@@ -28,14 +27,6 @@ import SupportListScreen from "./screens/SupportListScreen";
 import FAQScreen from "./screens/FAQScreen";
 
 function App() {
-  const [success, setSuccess] = useState(null);
-
-  const successProfile = (value) => {
-    setSuccess(value);
-  };
-
-  console.log("Success Value ", success);
-
   return (
     <Router>
       <Header />
@@ -43,9 +34,7 @@ function App() {
       <main /* style={{ background: "#F5F5F5" }} */>
         <Container>
           <Routes>
-            {/* <Route render={() => <Header success={success} />}/> */}
-
-            <Route path="/" element={<HomeScreen />} exact />
+            <Route path="/" element={<HomeScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
 
@@ -76,12 +65,13 @@ function App() {
               path="/admin/pendingExperts/:id/approve"
               element={<ExpertApproveScreen />}
             />
-            <Route
-              path="/profile"
-              element={<ProfileScreen successProfile={successProfile} />}
-            />
+            <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/support" element={<SupportScreen />} />
-            <Route path="/admin/problemlist" element={<SupportListScreen />} exact />
+            <Route
+              path="/admin/problemlist"
+              element={<SupportListScreen />}
+              exact
+            />
             <Route path="/faq" element={<FAQScreen />} />
           </Routes>
         </Container>

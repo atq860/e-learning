@@ -7,13 +7,17 @@ main {
   visibility: hidden;
 }
 
-.carousel-control-next-icon {
-  margin-left: 5rem;
+/* .carousel-control-next-icon {
+  background-color: black;
 }
 
-.carousel-indicators {
+.carousel-control-prev-icon {
+  background-color: black;
+} */
+
+/* .carousel-indicators {
   visibility: hidden;
-}
+} */
 
 .dropdown-toggle {
   visibility: hidden;
@@ -117,8 +121,8 @@ h2 {
 }
 
 .logoImage {
-  width: 40px;
-  height: 40px;
-  margin: 6px;
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
   border-radius: 5%;
 }

@@ -1,18 +1,15 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
-import { Form, Button, Row, Col, Table } from "react-bootstrap";
+import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { getUserDetails, updateUserProfile } from "../actions/userActions";
-// import { listMyOrders } from "../actions/orderActions";
 import { userType } from "../constants/userType";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 import { useNavigate } from "react-router-dom";
 
-const ProfileScreen = ({ successProfile }) => {
+const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("");
@@ -35,9 +32,6 @@ const ProfileScreen = ({ successProfile }) => {
   const { success } = userUpdateProfile;
 
   useEffect(() => {
-    if(success) {
-      successProfile(success)
-    }
     if (!userInfo) {
       navigate("/login");
     } else {
@@ -105,7 +99,10 @@ const ProfileScreen = ({ successProfile }) => {
 
   return (
     <>
-      <h1>Profile</h1>
+      <Container>
+        <h1>Profile</h1>
+      </Container>
+
       {message && <Message variant="danger">{message}</Message>}
       {success && <Message variant="success">Profile Updated</Message>}
 
@@ -114,118 +111,120 @@ const ProfileScreen = ({ successProfile }) => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <Row>
-          <Col md={4}>
-            <img
-              src={
-                user && user.image && user.image.length !== 0
-                  ? user.image
-                  : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-              }
-              // src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-              alt="Profile Picture"
-              style={{
-                width: "200px",
-                height: "200px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                marginRight: "20px",
-                // display: "block",
-                // marginLeft: "auto",
-                // marginRight: "auto",
-              }}
-            />
-          </Col>
-          <Col md={8}>
-            <Form onSubmit={submitHandler}>
-              <Form.Group controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="name"
-                  placeholder="Enter name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+        <div className="container">
+          <Row>
+            <Col md={4}>
+              <img
+                src={
+                  user && user.image && user.image.length !== 0
+                    ? user.image
+                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                }
+                // src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                alt="profile"
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  marginRight: "20px",
+                  // display: "block",
+                  // marginLeft: "auto",
+                  // marginRight: "auto",
+                }}
+              />
+            </Col>
+            <Col md={8}>
+              <Form onSubmit={submitHandler}>
+                <Form.Group controlId="name">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="name"
+                    placeholder="Enter name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
 
-              <Form.Group controlId="image" className="mt-3">
-                <Form.Label>Image</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter image url"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                ></Form.Control>
-                <Form.Control
-                  type="file"
-                  id="image-file"
-                  label="Choose File"
-                  custom="true"
-                  onChange={uploadFileHandler}
-                ></Form.Control>
-                {uploading && <Loader />}
-              </Form.Group>
+                <Form.Group controlId="image" className="mt-3">
+                  <Form.Label>Image</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter image url"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                  ></Form.Control>
+                  <Form.Control
+                    type="file"
+                    id="image-file"
+                    label="Choose File"
+                    custom="true"
+                    onChange={uploadFileHandler}
+                  ></Form.Control>
+                  {uploading && <Loader />}
+                </Form.Group>
 
-              {userInfo.type === userType.EXPERT && (
-                <>
-                  <Form.Group controlId="phone" className="mt-3">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control
-                      type="name"
-                      placeholder="Enter Contact Number"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
+                {userInfo.type === userType.EXPERT && (
+                  <>
+                    <Form.Group controlId="phone" className="mt-3">
+                      <Form.Label>Phone</Form.Label>
+                      <Form.Control
+                        type="name"
+                        placeholder="Enter Contact Number"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      ></Form.Control>
+                    </Form.Group>
 
-                  <Form.Group controlId="country" className="mt-3">
-                    <Form.Label>Country</Form.Label>
-                    <Form.Control
-                      type="name"
-                      placeholder="Enter Country"
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
+                    <Form.Group controlId="country" className="mt-3">
+                      <Form.Label>Country</Form.Label>
+                      <Form.Control
+                        type="name"
+                        placeholder="Enter Country"
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                      ></Form.Control>
+                    </Form.Group>
 
-                  <Form.Group controlId="city" className="mt-3">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control
-                      type="name"
-                      placeholder="Enter City"
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-                </>
-              )}
+                    <Form.Group controlId="city" className="mt-3">
+                      <Form.Label>City</Form.Label>
+                      <Form.Control
+                        type="name"
+                        placeholder="Enter City"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                      ></Form.Control>
+                    </Form.Group>
+                  </>
+                )}
 
-              <Form.Group controlId="password" className="mt-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+                <Form.Group controlId="password" className="mt-3">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
 
-              <Form.Group controlId="confirmPassword" className="mt-3">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+                <Form.Group controlId="confirmPassword" className="mt-3">
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Confirm password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
 
-              <Button type="submit" variant="primary" className="mt-3">
-                Update
-              </Button>
-            </Form>
-          </Col>
-        </Row>
+                <Button type="submit" variant="primary" className="mt-3">
+                  Update
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+        </div>
       )}
     </>
   );

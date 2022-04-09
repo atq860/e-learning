@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { userType } from "../constants/userType";
 import HomeCarousel from "../components/HomeCarousel";
 
@@ -10,10 +10,6 @@ function HomeScreen() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-
-  const handlePost = () => navigate("/post-a-question");
-
-  let imgs = ["/images/head.jpg", "/images/head3.jpg"];
 
   return (
     <>
@@ -24,6 +20,7 @@ function HomeScreen() {
           style={{
             backgroundImage: `url("/images/head3.jpg")`,
             marginTop: "2rem",
+            marginBottom: "5rem",
             backgroundPosition: "center",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
@@ -413,7 +410,7 @@ function HomeScreen() {
                       }}
                       to="/faq"
                     >
-                      <div style={{ textAlign: "center", marginTop: "1rem" }}>
+                      <div style={{ textAlign: "center", marginTop: "4rem" }}>
                         FAQ &#8594;
                       </div>
                     </Link>

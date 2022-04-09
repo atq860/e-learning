@@ -72,90 +72,93 @@ const RegisterScreen = ({ location }) => {
 
   return (
     <FormContainer>
-      <h1 /* style={{ textAlign: "center", marginTop: "2rem" }} */>Sign Up</h1>
-      {error && <Message variant="danger">{error}</Message>}
-      {message && <Message variant="danger">{message}</Message>}
+      <div className="container">
+        <h1 /* style={{ textAlign: "center", marginTop: "2rem" }} */>
+          Sign Up
+        </h1>
+        {error && <Message variant="danger">{error}</Message>}
+        {message && <Message variant="danger">{message}</Message>}
 
-      {loading && <Loader />}
-      <Form
-        onSubmit={
-          submitHandler
-        } /* style={{ border: "1px solid #F5F5F5", padding: "50px", borderRadius: "5px" }} */
-      >
-        <Form.Group controlId="rating" className="pb-5">
-          <Form.Label>Sign Up as</Form.Label>
+        {loading && <Loader />}
+        <Form
+          onSubmit={
+            submitHandler
+          } /* style={{ border: "1px solid #F5F5F5", padding: "50px", borderRadius: "5px" }} */
+        >
+          <Form.Group controlId="rating" className="pb-5">
+            <Form.Label>Sign Up as</Form.Label>
 
-          <Form.Control
-            as="select"
-            value={select}
-            onChange={(e) => setSelect(e.target.value)}
-          >
-            <option value="">Select...</option>
-            <option value="expert">Expert</option>
-            <option value="user">User/Student</option>
-          </Form.Control>
-        </Form.Group>
+            <Form.Control
+              as="select"
+              value={select}
+              onChange={(e) => setSelect(e.target.value)}
+            >
+              <option value="">Select...</option>
+              <option value="expert">Expert</option>
+              <option value="user">User/Student</option>
+            </Form.Control>
+          </Form.Group>
 
-        <Form.Group controlId="name">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="name"
-            placeholder="Enter Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          ></Form.Control>
-        </Form.Group>
+          <Form.Group controlId="name">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="name"
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            ></Form.Control>
+          </Form.Group>
 
-        <Form.Group controlId="email" className="pt-3">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          ></Form.Control>
-        </Form.Group>
+          <Form.Group controlId="email" className="pt-3">
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            ></Form.Control>
+          </Form.Group>
 
-        {select === "expert" && (
-          <>
-            <Form.Group controlId="phone" className="pt-3">
-              <Form.Label>Contact Number</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="03001234567"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              ></Form.Control>
-            </Form.Group>
+          {select === "expert" && (
+            <>
+              <Form.Group controlId="phone" className="pt-3">
+                <Form.Label>Contact Number</Form.Label>
+                <Form.Control
+                  type="name"
+                  placeholder="03001234567"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="country" className="pt-3">
-              <Form.Label>Country</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="Enter Country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                required
-              ></Form.Control>
-            </Form.Group>
+              <Form.Group controlId="country" className="pt-3">
+                <Form.Label>Country</Form.Label>
+                <Form.Control
+                  type="name"
+                  placeholder="Enter Country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  required
+                ></Form.Control>
+              </Form.Group>
 
-            <Form.Group controlId="city" className="pt-3">
-              <Form.Label>City</Form.Label>
-              <Form.Control
-                type="name"
-                placeholder="Enter City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                required
-              ></Form.Control>
-            </Form.Group>
-          </>
-        )}
+              <Form.Group controlId="city" className="pt-3">
+                <Form.Label>City</Form.Label>
+                <Form.Control
+                  type="name"
+                  placeholder="Enter City"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  required
+                ></Form.Control>
+              </Form.Group>
+            </>
+          )}
 
-        {/* <div class="form-group">
+          {/* <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
           <input
             type="password"
@@ -169,41 +172,42 @@ const RegisterScreen = ({ location }) => {
           />
         </div> */}
 
-        <Form.Group controlId="password" className="pt-3">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          ></Form.Control>
-        </Form.Group>
+          <Form.Group controlId="password" className="pt-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            ></Form.Control>
+          </Form.Group>
 
-        <Form.Group controlId="confirmPassword" className="pt-3">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          ></Form.Control>
-        </Form.Group>
+          <Form.Group controlId="confirmPassword" className="pt-3">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            ></Form.Control>
+          </Form.Group>
 
-        <Button type="submit" variant="primary" className="mt-3">
-          Register
-        </Button>
-      </Form>
+          <Button type="submit" variant="primary" className="mt-3">
+            Register
+          </Button>
+        </Form>
 
-      <Row className="py-3">
-        <Col>
-          Have an Account?{" "}
-          <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
-            Login
-          </Link>
-        </Col>
-      </Row>
+        <Row className="py-3">
+          <Col>
+            Have an Account?{" "}
+            <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
+              Login
+            </Link>
+          </Col>
+        </Row>
+      </div>
     </FormContainer>
   );
 };

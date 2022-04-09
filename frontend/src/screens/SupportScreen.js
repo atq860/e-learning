@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { createProblem } from "../actions/supportActions";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { Button, Row, Col, Form } from "react-bootstrap";
@@ -16,7 +15,7 @@ function SupportScreen() {
   const dispatch = useDispatch();
 
   const problemCreate = useSelector((state) => state.problemCreate);
-  const { loading, error, success, problem } = problemCreate;
+  const { loading, error, success } = problemCreate;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -24,7 +23,7 @@ function SupportScreen() {
   useEffect(() => {
     if (success) {
       dispatch({ type: PROBLEM_CREATE_RESET });
-      setMessage("Your Request has been sent")
+      setMessage("Your Request has been sent");
       setTitle("");
       setNewProblem("");
     }
@@ -77,9 +76,15 @@ function SupportScreen() {
                 ></Form.Control>
               </Form.Group>
 
-              <Button type="submit" variant="primary" className="mt-3">
-                Send
-              </Button>
+              {userInfo ? (
+                <Button type="submit" variant="primary" className="mt-3">
+                  Send
+                </Button>
+              ) : (
+                <div className="mt-3">
+                  Please <Link to="/login">sign in</Link> for any Query
+                </div>
+              )}
             </Form>
           </Col>
         </Row>
